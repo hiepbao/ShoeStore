@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ShoeStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK__Customer__Custom__6E01572D" FromRole="Accounts" ToRole="Customer" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Products__Produc__72C60C4A" FromRole="Category" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="ColorId" />
+    </Key>
+    <Property Name="ColorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ColorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ColorHexCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductColorSizes" Relationship="Self.FK__ProductCo__Color__6FE99F9F" FromRole="Color" ToRole="ProductColorSize" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerUsername" />
+    </Key>
+    <Property Name="CustomerUsername" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerPNum" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="CustomerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Customer__Custom__6E01572D" FromRole="Customer" ToRole="Accounts" />
+    <NavigationProperty Name="Receipts" Relationship="Self.FK_RC_CUS" FromRole="Customer" ToRole="Receipt" />
+  </EntityType>
+  <EntityType Name="DetailReceipt">
+    <Key>
+      <PropertyRef Name="DetailReceiptId" />
+    </Key>
+    <Property Name="DetailReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="quantityProduct" Type="Int32" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="ReceiptId" Type="Int32" />
+    <Property Name="SizeProduct" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="ColorProduct" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ProductId" Type="Int32" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_DetailsReCeipt_Product" FromRole="DetailReceipt" ToRole="Products" />
+    <NavigationProperty Name="Receipt" Relationship="Self.FK_RC_Detail_RC" FromRole="DetailReceipt" ToRole="Receipt" />
+  </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ImageExtension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="IsMain" Type="Boolean" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Image__ProductId__6EF57B66" FromRole="Image" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="PaymentId" />
+    </Key>
+    <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Receipts" Relationship="Self.FK_RC_PM" FromRole="Payment" ToRole="Receipt" />
+  </EntityType>
+  <EntityType Name="ProductColorSize">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="SizeId" Type="Int32" Nullable="false" />
+    <Property Name="ColorId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="Color" Relationship="Self.FK__ProductCo__Color__6FE99F9F" FromRole="ProductColorSize" ToRole="Color" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__ProductCo__Produ__70DDC3D8" FromRole="ProductColorSize" ToRole="Products" />
+    <NavigationProperty Name="Size" Relationship="Self.FK__ProductCo__SizeI__71D1E811" FromRole="ProductColorSize" ToRole="Size" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ProductPrice" Type="Double" />
+    <Property Name="ProductViewer" Type="Int32" />
+    <Property Name="ProductCategory" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="Self.FK__Products__Produc__72C60C4A" FromRole="Products" ToRole="Category" />
+    <NavigationProperty Name="DetailReceipts" Relationship="Self.FK_DetailsReCeipt_Product" FromRole="Products" ToRole="DetailReceipt" />
+    <NavigationProperty Name="Images" Relationship="Self.FK__Image__ProductId__6EF57B66" FromRole="Products" ToRole="Image" />
+    <NavigationProperty Name="ProductColorSizes" Relationship="Self.FK__ProductCo__Produ__70DDC3D8" FromRole="Products" ToRole="ProductColorSize" />
+  </EntityType>
+  <EntityType Name="Receipt">
+    <Key>
+      <PropertyRef Name="ReceiptId" />
+    </Key>
+    <Property Name="ReceiptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dates" Type="DateTime" Precision="3" />
+    <Property Name="Total" Type="Int32" />
+    <Property Name="CustomerUsername" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="StatusId" Type="Int32" />
+    <Property Name="PaymentId" Type="Int32" />
+    <Property Name="TotalQuantity" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AddressReceipt" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneCus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_RC_CUS" FromRole="Receipt" ToRole="Customer" />
+    <NavigationProperty Name="DetailReceipts" Relationship="Self.FK_RC_Detail_RC" FromRole="Receipt" ToRole="DetailReceipt" />
+    <NavigationProperty Name="Payment" Relationship="Self.FK_RC_PM" FromRole="Receipt" ToRole="Payment" />
+    <NavigationProperty Name="StatusRC" Relationship="Self.FK_RC_STT" FromRole="Receipt" ToRole="StatusRC" />
+  </EntityType>
+  <EntityType Name="Size">
+    <Key>
+      <PropertyRef Name="SizeId" />
+    </Key>
+    <Property Name="SizeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SizeValue" Type="Double" />
+    <NavigationProperty Name="ProductColorSizes" Relationship="Self.FK__ProductCo__SizeI__71D1E811" FromRole="Size" ToRole="ProductColorSize" />
+  </EntityType>
+  <EntityType Name="StatusRC">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Receipts" Relationship="Self.FK_RC_STT" FromRole="StatusRC" ToRole="Receipt" />
+  </EntityType>
+  <Association Name="FK__Customer__Custom__6E01572D">
+    <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Username" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="CustomerUsername" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Products__Produc__72C60C4A">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="ProductCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ProductCo__Color__6FE99F9F">
+    <End Role="Color" Type="Self.Color" Multiplicity="1" />
+    <End Role="ProductColorSize" Type="Self.ProductColorSize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Color">
+        <PropertyRef Name="ColorId" />
+      </Principal>
+      <Dependent Role="ProductColorSize">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RC_CUS">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerUsername" />
+      </Principal>
+      <Dependent Role="Receipt">
+        <PropertyRef Name="CustomerUsername" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetailsReCeipt_Product">
+    <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="DetailReceipt" Type="Self.DetailReceipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="DetailReceipt">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RC_Detail_RC">
+    <End Role="Receipt" Type="Self.Receipt" Multiplicity="0..1" />
+    <End Role="DetailReceipt" Type="Self.DetailReceipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Receipt">
+        <PropertyRef Name="ReceiptId" />
+      </Principal>
+      <Dependent Role="DetailReceipt">
+        <PropertyRef Name="ReceiptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Image__ProductId__6EF57B66">
+    <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Image" Type="Self.Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RC_PM">
+    <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
+    <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Payment">
+        <PropertyRef Name="PaymentId" />
+      </Principal>
+      <Dependent Role="Receipt">
+        <PropertyRef Name="PaymentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ProductCo__Produ__70DDC3D8">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductColorSize" Type="Self.ProductColorSize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="ProductColorSize">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ProductCo__SizeI__71D1E811">
+    <End Role="Size" Type="Self.Size" Multiplicity="1" />
+    <End Role="ProductColorSize" Type="Self.ProductColorSize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Size">
+        <PropertyRef Name="SizeId" />
+      </Principal>
+      <Dependent Role="ProductColorSize">
+        <PropertyRef Name="SizeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RC_STT">
+    <End Role="StatusRC" Type="Self.StatusRC" Multiplicity="0..1" />
+    <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusRC">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Receipt">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ShoeStoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Colors" EntityType="Self.Color" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="DetailReceipts" EntityType="Self.DetailReceipt" />
+    <EntitySet Name="Images" EntityType="Self.Image" />
+    <EntitySet Name="Payments" EntityType="Self.Payment" />
+    <EntitySet Name="ProductColorSizes" EntityType="Self.ProductColorSize" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Receipts" EntityType="Self.Receipt" />
+    <EntitySet Name="Sizes" EntityType="Self.Size" />
+    <EntitySet Name="StatusRCs" EntityType="Self.StatusRC" />
+    <AssociationSet Name="FK__Customer__Custom__6E01572D" Association="Self.FK__Customer__Custom__6E01572D">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Products__Produc__72C60C4A" Association="Self.FK__Products__Produc__72C60C4A">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ProductCo__Color__6FE99F9F" Association="Self.FK__ProductCo__Color__6FE99F9F">
+      <End Role="Color" EntitySet="Colors" />
+      <End Role="ProductColorSize" EntitySet="ProductColorSizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RC_CUS" Association="Self.FK_RC_CUS">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Receipt" EntitySet="Receipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetailsReCeipt_Product" Association="Self.FK_DetailsReCeipt_Product">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="DetailReceipt" EntitySet="DetailReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RC_Detail_RC" Association="Self.FK_RC_Detail_RC">
+      <End Role="Receipt" EntitySet="Receipts" />
+      <End Role="DetailReceipt" EntitySet="DetailReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Image__ProductId__6EF57B66" Association="Self.FK__Image__ProductId__6EF57B66">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Image" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RC_PM" Association="Self.FK_RC_PM">
+      <End Role="Payment" EntitySet="Payments" />
+      <End Role="Receipt" EntitySet="Receipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ProductCo__Produ__70DDC3D8" Association="Self.FK__ProductCo__Produ__70DDC3D8">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductColorSize" EntitySet="ProductColorSizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ProductCo__SizeI__71D1E811" Association="Self.FK__ProductCo__SizeI__71D1E811">
+      <End Role="Size" EntitySet="Sizes" />
+      <End Role="ProductColorSize" EntitySet="ProductColorSizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RC_STT" Association="Self.FK_RC_STT">
+      <End Role="StatusRC" EntitySet="StatusRCs" />
+      <End Role="Receipt" EntitySet="Receipts" />
+    </AssociationSet>
+    <FunctionImport Name="Account_List" ReturnType="Collection(ShoeStoreModel.Account_List_Result)" />
+    <FunctionImport Name="Account_Signup" ReturnType="Collection(String)">
+      <Parameter Name="Username" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="addSizeColor" ReturnType="Collection(Int32)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="size" Mode="In" Type="Int32" />
+      <Parameter Name="color" Mode="In" Type="Int32" />
+      <Parameter Name="qty" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AddToCart">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="ProductId" Mode="In" Type="Int32" />
+      <Parameter Name="size" Mode="In" Type="Int32" />
+      <Parameter Name="color" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AuthenticateLogin" ReturnType="Collection(String)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AuthenticateRegister">
+      <Parameter Name="Username" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Image" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="Customer_Details" ReturnType="Collection(ShoeStoreModel.Customer_Details_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Customer_List" ReturnType="Collection(ShoeStoreModel.Customer_List_Result)" />
+    <FunctionImport Name="DeleteProduct">
+      <Parameter Name="ProductID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Get_All_ProductCS" ReturnType="Collection(ShoeStoreModel.Get_All_ProductCS_Result)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Get_session" ReturnType="Collection(ShoeStoreModel.Get_session_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetCartOfUser">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetCategory" ReturnType="Collection(ShoeStoreModel.GetCategory_Result)" />
+    <FunctionImport Name="GetColor" ReturnType="Collection(ShoeStoreModel.GetColor_Result)" />
+    <FunctionImport Name="GetColorOfProduct" ReturnType="Collection(ShoeStoreModel.GetColorOfProduct_Result)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetImageToCart" ReturnType="Collection(ShoeStoreModel.GetImageToCart_Result)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetProductDetail" ReturnType="Collection(ShoeStoreModel.GetProductDetail_Result)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetProducts" ReturnType="Collection(ShoeStoreModel.GetProducts_Result)">
+      <Parameter Name="qty" Mode="In" Type="Int32" />
+      <Parameter Name="type" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetQuantity" ReturnType="Collection(Int32)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+      <Parameter Name="sizeId" Mode="In" Type="Int32" />
+      <Parameter Name="ColorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetSize" ReturnType="Collection(ShoeStoreModel.GetSize_Result)" />
+    <FunctionImport Name="GetSizeOfProduct" ReturnType="Collection(ShoeStoreModel.GetSizeOfProduct_Result)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetUserCart">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="getUserSession" ReturnType="Collection(ShoeStoreModel.getUserSession_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertProduct">
+      <Parameter Name="ProductName" Mode="In" Type="String" />
+      <Parameter Name="ProductPrice" Mode="In" Type="Double" />
+      <Parameter Name="ProductCategory" Mode="In" Type="Int32" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="IsAdmin" ReturnType="Collection(String)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Receipt_Confirm" ReturnType="Collection(Int32)">
+      <Parameter Name="ReceiptId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Receipt_Delete" ReturnType="Collection(Int32)">
+      <Parameter Name="ReceiptId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="RemoveCart">
+      <Parameter Name="userName" Mode="In" Type="String" />
+      <Parameter Name="ProductId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SearchProduct" ReturnType="Collection(ShoeStoreModel.SearchProduct_Result)">
+      <Parameter Name="ProductName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SearchProductByName" ReturnType="Collection(ShoeStoreModel.SearchProductByName_Result)">
+      <Parameter Name="productName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Statistic_Receipt_Month" ReturnType="Collection(ShoeStoreModel.Statistic_Receipt_Month_Result)">
+      <Parameter Name="year" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ThongKe_SelectYear" ReturnType="Collection(Int32)" />
+    <FunctionImport Name="Update_ProductCS_Quantity">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="ProductId" Mode="In" Type="Int32" />
+      <Parameter Name="size" Mode="In" Type="Int32" />
+      <Parameter Name="color" Mode="In" Type="Int32" />
+      <Parameter Name="quantity" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateProduct">
+      <Parameter Name="ProductID" Mode="In" Type="Int32" />
+      <Parameter Name="ProductName" Mode="In" Type="String" />
+      <Parameter Name="ProductPrice" Mode="In" Type="Double" />
+      <Parameter Name="ProductCategory" Mode="In" Type="Int32" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UploadImageToProduct" ReturnType="Collection(Decimal)">
+      <Parameter Name="ImgData" Mode="In" Type="Binary" />
+      <Parameter Name="ImgExt" Mode="In" Type="String" />
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Validate_Role" ReturnType="Collection(ShoeStoreModel.Validate_Role_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Statistic_Income_Month" ReturnType="Collection(ShoeStoreModel.Statistic_Income_Month_Result)">
+      <Parameter Name="year" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Receipt_Details" ReturnType="Collection(ShoeStoreModel.Receipt_Details_Result)">
+      <Parameter Name="ReceiptId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateCustomer">
+      <Parameter Name="CustomerUsername" Mode="In" Type="String" />
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="CustomerEmail" Mode="In" Type="String" />
+      <Parameter Name="CustomerPNum" Mode="In" Type="String" />
+      <Parameter Name="CustomerAddress" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Cus_DoiMK" ReturnType="Collection(Int32)">
+      <Parameter Name="MaNhanVien" Mode="In" Type="String" />
+      <Parameter Name="MatKhau" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="Account_List_Result">
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Password" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="Customer_Details_Result">
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Password" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="CustomerUsername" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerPNum" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CustomerAddress" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="Customer_List_Result">
+    <Property Type="String" Name="CustomerUsername" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerPNum" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CustomerAddress" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="Get_All_ProductCS_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="ProductId" Nullable="false" />
+    <Property Type="Int32" Name="SizeId" Nullable="false" />
+    <Property Type="Int32" Name="ColorId" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="true" />
+    <Property Type="String" Name="ColorName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ColorHexCode" Nullable="true" MaxLength="10" />
+    <Property Type="Double" Name="SizeValue" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Get_session_Result">
+    <Property Type="String" Name="CustomerUsername" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerPNum" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CustomerAddress" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="GetCategory_Result">
+    <Property Type="Int32" Name="CategoryId" Nullable="false" />
+    <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="GetColor_Result">
+    <Property Type="Int32" Name="ColorId" Nullable="false" />
+    <Property Type="String" Name="ColorName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ColorHexCode" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="GetColorOfProduct_Result">
+    <Property Type="Int32" Name="ColorId" Nullable="false" />
+    <Property Type="String" Name="ColorName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ColorHexCode" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="GetImageToCart_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Binary" Name="ImageData" Nullable="true" />
+    <Property Type="String" Name="ImageExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="ProductId" Nullable="true" />
+    <Property Type="Boolean" Name="IsMain" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetProductDetail_Result">
+    <Property Type="Int32" Name="ProductId" Nullable="false" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="ProductPrice" Nullable="true" />
+    <Property Type="Int32" Name="ProductViewer" Nullable="true" />
+    <Property Type="Int32" Name="ProductCategory" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="GetProducts_Result">
+    <Property Type="Int32" Name="ProductId" Nullable="false" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="ProductPrice" Nullable="true" />
+    <Property Type="Int32" Name="ProductViewer" Nullable="true" />
+    <Property Type="Int32" Name="ProductCategory" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="ColorSum" Nullable="true" />
+    <Property Type="Binary" Name="ImageData" Nullable="true" />
+    <Property Type="String" Name="ImageExtension" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="GetSize_Result">
+    <Property Type="Int32" Name="SizeId" Nullable="false" />
+    <Property Type="Double" Name="SizeValue" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetSizeOfProduct_Result">
+    <Property Type="Int32" Name="SizeId" Nullable="false" />
+    <Property Type="Double" Name="SizeValue" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="getUserSession_Result">
+    <Property Type="String" Name="CustomerUsername" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerEmail" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="CustomerPNum" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CustomerAddress" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SearchProduct_Result">
+    <Property Type="Int32" Name="ProductId" Nullable="false" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="ProductPrice" Nullable="true" />
+    <Property Type="Int32" Name="ProductViewer" Nullable="true" />
+    <Property Type="Int32" Name="ProductCategory" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SearchProductByName_Result">
+    <Property Type="Int32" Name="ProductId" Nullable="false" />
+    <Property Type="String" Name="ProductName" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="ProductPrice" Nullable="true" />
+    <Property Type="Int32" Name="ProductViewer" Nullable="true" />
+    <Property Type="Int32" Name="ProductCategory" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="ColorSum" Nullable="true" />
+    <Property Type="Binary" Name="ImageData" Nullable="true" />
+    <Property Type="String" Name="ImageExtension" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="Statistic_Receipt_Month_Result">
+    <Property Type="Int32" Name="Thang" Nullable="true" />
+    <Property Type="Int32" Name="Nam" Nullable="true" />
+    <Property Type="Int32" Name="SoHoaDon" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Validate_Role_Result">
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Password" Nullable="true" MaxLength="4000" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="Statistic_Income_Month_Result">
+    <Property Type="Int32" Name="Thang" Nullable="true" />
+    <Property Type="Int32" Name="Nam" Nullable="true" />
+    <Property Type="Int32" Name="DoanhThu" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Receipt_Details_Result">
+    <Property Type="Int32" Name="ReceiptId" Nullable="false" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="AddressReceipt" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PhoneCus" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="dates" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="TotalQuantity" Nullable="true" />
+    <Property Type="Int32" Name="Total" Nullable="true" />
+    <Property Type="String" Name="StatusName" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="PaymentMethod" Nullable="true" MaxLength="50" />
+  </ComplexType>
+</Schema>

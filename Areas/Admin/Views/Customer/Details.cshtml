@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var detail = ViewBag.Detail as ShoeStore.Models.Customer_Details_Result;
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container" style="background-color: #F2F2F2; padding: 50px; margin-top: 5%; border-radius: 1.5rem;">
+        <div class="form-horizontal row justify-content-around" style="background-color: white; padding: 30px; border-radius: 1rem">
+            <h4>@detail.CustomerUsername's Detail</h4>
+            <hr />
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Họ tên</label>
+                    <div class="col mb-3 mt-2">
+                        <input class="form-control" type="text" value="@detail.CustomerName" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Email</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="hoten" class="form-control" value="@detail.CustomerEmail" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Số điện thoại</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="sdt" class="form-control" value="@detail.CustomerPNum" disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Địa chỉ</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="" class="form-control" value="@detail.CustomerAddress" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Tên tài khoản</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="date" name="ngaysinh" class="form-control" value="@detail.CustomerUsername" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Role</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="khuvuc" class="form-control" value="@detail.Role" disabled />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                @Html.ActionLink("Hủy", "Index", "TaiKhoan", new { @class = "btn btn-outline-success", @style = "border-radius: 1.5rem;  width: 100px;" })
+                <button type="submit" name="id" value="" class="btn btn-success " style="border-radius: 1.5rem; width: 100px; ">Lưu</button>
+            </div>
+        </div>
+    </div>
+}
+

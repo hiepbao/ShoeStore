@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "EmptyCart";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+<div class="mx-5">
+    <h5 class="fw-bold text-uppercase my-3">My shopping cart</h5>
+    <p class="text-danger"><b>When you buy more than 3 products, you will get a discount of up to  <span style="font-size:xx-large">10% </span>of the total product price</b></p>
+    <a class="text-decoration-none" href="@Url.Action("Home","Products")">Buy more products</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayName("Name")</th>
+                <th scope="col">@Html.DisplayName("Image")</th>
+                <th scope="col">@Html.DisplayName("Color")</th>
+                <th scope="col">@Html.DisplayName("Size")</th>
+                <th scope="col">@Html.DisplayName("Price")</th>
+                <th scope="col">@Html.DisplayName("Quantity")</th>
+                <th scope="col">@Html.DisplayName("into money")</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <p class="fw-bold">Total quantity: <span>0</span></p>
+        <p class="fw-bold">Total money: <span class="text-danger">0 VNĐ</span></p>
+        <p class="text-danger" style="text-align:center">No products! Please buy the product</p>
+    </div>
+</div>
+
+
+

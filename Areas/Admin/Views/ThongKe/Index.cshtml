@@ -1,0 +1,78 @@
+﻿@{
+
+    ViewBag.Title = "ThongKe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container w-100" style="background-color: white; padding: 30px;">
+    <div>
+        <h5 class="text-center">Order Statistics</h5>
+        <div class="w-25">
+            @Html.DropDownList("Year", null, "Select", new { @class = "form-select p-2", @id = "sly" })
+        </div>
+    </div>
+
+
+    <div id="barChart" class="container w-75 mt-3 " style="height: 100%;">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var Year = new Date();
+    GetReceipt_MonthChart(Year.getFullYear());
+
+    $('#sly').on('change', function () {
+            var year = $('#sly').val();
+            GetReceipt_MonthChart(year);
+    });
+
+    function GetReceipt_MonthChart(year) {
+        $.get('/ThongKe/Receipt_MonthChart?year=' + year, function (res) {
+            CreateChart(res);
+        });
+    }
+
+
+    function CreateChart(lstdata) {
+
+        //Xóa chart cũ tạo chart mới mỗi khi load lại
+        $("canvas#myChart").remove();
+        $('#barChart').html('<canvas id="myChart"></canvas>');
+
+
+        var label = [];
+        var dtsource = [];
+
+        $.each(lstdata, function (index, item) {
+            label.push(item.Thang);
+            dtsource.push(item.SoHoaDon);
+
+        });
+
+        var chart = document.getElementById("myChart");
+
+        var barchart = {
+            labels: label,
+            datasets: [
+                {
+                    label: 'Number of Receipts',
+                    backgroundColor: '#0b9663',
+                    borderWidth: 1,
+                    data: dtsource,
+
+                }
+            ]
+        };
+
+        var myBarChart = new Chart(chart, {
+            type: 'bar',
+            data: barchart,
+        });
+    }</script>
+
+
+
+

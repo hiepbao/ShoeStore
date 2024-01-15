@@ -1,0 +1,100 @@
+﻿@model IEnumerable<ShoeStore.Models.Receipt>
+
+@{
+    ViewBag.Title = "Order list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container" style="background-color: #F2F2F2; padding: 50px;">
+        <div class="form-horizontal" style="background-color: white; padding: 30px; border-radius: 1rem">
+            <h2>Order list</h2>
+            <hr />
+            <div class="row g-3">
+                <div class="col mb-3">
+                    @Html.DisplayName("Id orders")
+                    <div class="col mt-2">
+                        <input type="number" class="form-control" value="" name="" placeholder="" min="0" />
+                    </div>
+                </div>
+                <div class="col mb-3">
+                    @Html.DisplayName("Status")
+                    <div class="col mt-2">
+                        <input type="text" class="form-control" value="" name="" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    @Html.ActionLink("Reset", "OrderList", "Receipt", new { @class = "btn btn-outline-success", @style = "border-radius: 1.5rem;  width: 100px;" })
+                    <input type="submit" value="Search" class="btn btn-success" style="border-radius: 1.5rem; width: 100px; " />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal" style="background-color: white; padding: 30px; border-radius: 1rem; margin-top: 20px;">
+            <table class="table table-hover text-center">
+                <thead class="mx-2">
+                    <tr>
+                        <th class="m-3">
+                            @Html.DisplayName("Id orders")
+                        </th>
+                        <th>
+                            @Html.DisplayName("CustomerName")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Address")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Phone")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Time")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Status")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Actions")
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReceiptId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CustomerName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AddressReceipt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneCus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.dates)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StatusRC.StatusName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Detail", "Details", new { id = item.ReceiptId }, new { @class = "btn btn-outline-success", @style = "border-radius: 1.5rem;  width: 100px;" })
+                                @Html.ActionLink("Cancel", "Delete", new { id = item.ReceiptId }, new { @class = "btn btn-outline-success", @style = "border-radius: 1.5rem;  width: 100px;" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
+
+

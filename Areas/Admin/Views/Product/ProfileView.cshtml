@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ProfileView";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    var detail = ViewBag.sua as ShoeStore.Models.Customer_Details_Result;
+}
+
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div id="notice" class="alert alert-success text-light" style="background: linear-gradient(90deg, #54BF5A 0.7%, #2D9147 71.82%); border-radius: 2rem; ">@successMessage</div>
+}
+
+<form action="~/admin/Product/ProfileView" method="post" enctype="multipart/form-data">
+    <div class="container" style="background-color: #F2F2F2; padding: 50px; margin-top: 5%; border-radius: 1.5rem;">
+        <div class="form-horizontal row justify-content-around" style="background-color: white; padding: 30px; border-radius: 1rem">
+            <h4>@detail.CustomerUsername</h4>
+            <hr />
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Name</label>
+                    <div class="col mb-3 mt-2">
+                        <input class="form-control" type="text" name="CustomerName" value="@detail.CustomerName" />
+                        @Html.ValidationMessage("tennhanvien", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Email</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="CustomerEmail" class="form-control" value="@detail.CustomerEmail" />
+                        @Html.ValidationMessage("email", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">PhoneNumber</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="CustomerPNum" class="form-control" value="@detail.CustomerPNum" />
+                        @Html.ValidationMessage("sodienthoai", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Address</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="CustomerAddress" class="form-control" value="@detail.CustomerAddress" />
+                        @Html.ValidationMessage("Address", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Username</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="CustomerUsername" class="form-control" value="@detail.CustomerUsername" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-2">Role</label>
+                    <div class="col mb-3 mt-2">
+                        <input type="text" name="khuvuc" class="form-control" value="@detail.Role" disabled />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                @Html.ActionLink("Change Password", "DoiMk", "Product", new { id = detail.CustomerUsername }, new { @class = "btn btn-outline-success", @style = "border-radius: 1.5rem; width: 150px; margin-top: 15px;" })
+                <button type="submit" name="id" value="@detail.CustomerUsername" class="btn btn-success " style="border-radius: 1.5rem; width: 100px; margin-top: 15px;">Save</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            if ($("#notice").is(':visible')) {
+                $("#notice").fadeIn(2000, function () {
+                    $("#notice").fadeOut(2000)
+                });
+            }
+        });
+        $("#notice").css({ "position": "fixed", "bottom": "5%", "right": "2%" })
+    </script>
+}
+

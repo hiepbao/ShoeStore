@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ShoeStore.Models.DetailReceipt>
+@{
+    ViewBag.Title = "HistoryPay";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<div class="w-50 mx-auto">
+    <h5 class="text-center text-uppercase fw-bold">Purchase history</h5>
+    <div>
+        <table class="table-striped table text-center">
+            <tr>
+                <th>@Html.DisplayName("Name")</th>
+                <th>@Html.DisplayName("Size")</th>
+                <th>@Html.DisplayName("Color")</th>
+                <th>@Html.DisplayName("Quantity")</th>
+                <th>@Html.DisplayName("Price")</th>
+            </tr>
+                @foreach(var item in Model)
+            {
+            <tr>
+                <td>@Html.DisplayFor(m=>item.Product.ProductName)</td>
+                <td>@Html.DisplayFor(m => item.SizeProduct)</td>
+                <td>@Html.DisplayFor(m => item.ColorProduct)</td>
+                <td>@Html.DisplayFor(m => item.quantityProduct)</td>
+                <td>@Html.DisplayFor(m => item.Price)</td>
+            </tr>
+            }
+        </table>
+    </div>
+</div>
+
+

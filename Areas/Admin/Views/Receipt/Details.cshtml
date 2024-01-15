@@ -1,0 +1,46 @@
+﻿@using ShoeStore.Models
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var DetailReceiptss = ViewBag.Detailss as List<DetailReceipt>;
+    var Receipts = ViewBag.Receipts as List<Receipt>;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container" style="background-color: #F2F2F2; padding: 50px; margin: auto">
+        <div class="form-horizontal row" style="background-color: white; padding: 30px; border-radius: 1rem">
+            <h4>Order details</h4>
+            <hr />
+                <table class="table">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                    @foreach (var item in DetailReceiptss)
+                    {
+                        <tr>
+                            <td>@item.Product.ProductName</td>
+                            <td>@item.ColorProduct</td>
+                            <td>@item.SizeProduct</td>
+                            <td>@item.quantityProduct</td>
+                            <td>@item.Price</td>
+                        </tr>
+
+                    }
+                </table>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    @Html.ActionLink("Back", "OrderList", "Receipt", new { @class = "btn btn-outline-success", @style = "border-radius: 1.5rem;  width: 100px;" })
+                    <input type="submit" value="Confirm" class="btn btn-success" style="border-radius: 1.5rem;  width: 100px;" />
+                </div>
+            
+            </div>
+        </div>
+
+}
+

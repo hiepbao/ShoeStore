@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ShoeStore.Models.Customer_List_Result>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<script src="https://kit.fontawesome.com/fbda8849fb.js" crossorigin="anonymous"></script>
+
+
+<div class="container" style="background-color: #F2F2F2; padding: 50px; border-radius: 1rem; margin-top:5%;">
+    <div class="d-flex justify-content-between mb-3">
+        <h4 class="fw-bold mt-2">Customer Management</h4>
+        <div class="search-form d-flex mt-2" style="height: 40px">
+            <input class="form-control" type="text" name="searchString" value="" placeholder="Search...">
+            <button class="border-0 bg-opacity-0 " type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </div>
+    <div class="form-horizontal" style="background-color: white; padding: 30px; border-radius: 1rem">
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Email")
+                </th>
+                <th>
+                    @Html.DisplayName("Username")
+                </th>
+                <th>
+                    @Html.DisplayName("Action")
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.CustomerEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.CustomerUsername)
+                    </td>
+                    <td>
+                        <button class="acc_info" onclick="location.href = '@Url.Action("Details", "Customer", new { id = item.CustomerUsername })'"
+                                style="background-color: rgba(0,0,0,0.05); border-radius: 50%; margin-left: 5px; border: none; text-decoration:none;">
+                            <i class="fas fa-info " style="width:16px;"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
